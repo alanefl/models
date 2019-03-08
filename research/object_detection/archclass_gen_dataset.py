@@ -43,6 +43,7 @@ import sys
 import tarfile
 import tensorflow as tf
 import zipfile
+from tqdm import tqdm
 
 from distutils.version import StrictVersion
 from collections import defaultdict
@@ -216,7 +217,7 @@ def extract_objects(filepaths, destdir, graph):
     The `stage` is dev, train, or test.
     """
     print("Extracting objects to directory %s" % (destdir))
-    for filepath in filepaths:
+    for filepath in tqdm(filepaths):
         image = Image.open(filepath)
         image_np = load_image_into_numpy_array(image)
         boxes, classes, scores = detect_single_image(image_np, graph)
