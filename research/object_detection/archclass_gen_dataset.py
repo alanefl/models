@@ -218,10 +218,15 @@ def extract_objects(filepaths, destdir, graph):
     """
     print("Extracting objects to directory %s" % (destdir))
     for filepath in tqdm(filepaths):
-        image = Image.open(filepath)
-        image_np = load_image_into_numpy_array(image)
-        boxes, classes, scores = detect_single_image(image_np, graph)
-        save_detected_objects(boxes, classes, scores, image_np, os.path.basename(filepath), destdir)
+        try:
+            image = Image.open(filepath)
+            image_np = load_image_into_numpy_array(image)
+            boxes, classes, scores = detect_single_image(image_np, graph)
+            save_detected_objects(boxes, classes, scores, image_np, os.path.basename(filepath), destdir)
+        except Exception as e:
+            print("An exception occurred")
+            print("Skipping file: %s" % filepath)
+            print(e)
 
 def main(args):
 
